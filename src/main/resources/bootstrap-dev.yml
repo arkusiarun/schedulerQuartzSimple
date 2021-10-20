@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      config:
+        acl-token:
+  quartz.schedulerName: schedulerService

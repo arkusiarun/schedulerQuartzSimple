@@ -1,0 +1,84 @@
+{
+  "name": "thanks_monitor_1",
+  "influx_server": "10.5.244.206",
+  "influx_port": "8086",
+  "monitor_time": "30m",
+  "full_rollout_monitor_time": "15m",
+  "full_rollout_compare_monitor_time": "1d",
+  "priorities_metrics_percentage": {
+    "1": 100,
+    "2": 75,
+    "3": 50
+  },
+  "metrics": [
+    {
+      "name": "cpu",
+      "database": "telegraf_growth",
+      "measurement": "cpu",
+      "comparison": "absolute",
+      "threshold": 40,
+      "condition": "lesser",
+      "priority": 1
+    },
+    {
+      "name": "memory",
+      "database": "telegraf_growth",
+      "measurement": "mem",
+      "comparison": "absolute",
+      "threshold": 85,
+      "condition": "lesser",
+      "priority": 1
+    },
+    {
+      "name": "tcp",
+      "database": "telegraf_growth",
+      "measurement": "netstat",
+      "comparison": "absolute",
+      "threshold": 140,
+      "margin": 30,
+      "condition": "lesser",
+      "priority": 1
+    },
+    {
+      "name": "heap",
+      "database": "telegraf_growth",
+      "measurement": "java_memory_usage",
+      "comparison": "absolute",
+      "threshold": 5,
+      "condition": "lesser",
+      "priority": 1
+    },
+    {
+      "name": "api_request_count",
+      "database": "digital_access_log",
+      "measurement": "topup_access_log",
+      "comparison": "relative",
+      "margin": 30,
+      "api": "/pricing-engine/s2s/api/getSkuPriceDetails",
+      "response": [
+        200,
+        400,
+        404,
+        408,
+        500,
+        502
+      ],
+      "priority": 2
+    },
+    {
+      "name": "api_response_time",
+      "database": "digital_access_log",
+      "measurement": "topup_access_log",
+      "comparison": "relative",
+      "api": "/pricing-engine/s2s/api/getSkuPriceDetails",
+      "percentile": [
+        "50.0",
+        "90.0",
+        "99.0"
+      ],
+      "condition": "lesser",
+      "margin": 30,
+      "priority": 2
+    }
+  ]
+}
